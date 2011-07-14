@@ -1,0 +1,40 @@
+<html>
+<head>
+	<link href="maths.css" type="text/css" rel="stylesheet" media="all" /> 
+	<script src="jquery.min.js" type="text/javascript"></script> 
+	<script src="maths.js" type="text/javascript"></script> 
+</head>
+<body>
+
+<div id='container'>
+<table>
+	<tr>
+		<td><div id='firstValue' class='number'></div></td>
+		<td><div id='operator' class='number'></div></td>
+		<td><div id='secondValue' class='number'></div></td>
+		<td>=</td>
+		<td><input type='text' id='answer' onKeyDown="return trapTab(event);" onkeypress="return validateAnswerKeyInput(event)" ></td>
+		<td><div id='finalAnswer' class='finalAnswer'></div></td>
+	</tr>
+	<tr>
+		<td colspan='5' style="vertical-align: top;">
+			<button class='answer' id='showAnswer' onKeyDown="return showAnswerKey(event);" onClick="showAnswer();">Answer</button>
+		</td>
+		<td style="vertical-align: top;">
+		</td>
+</table>
+</div>
+<div id='left'>
+	<input type='checkbox' id='addition' checked='checked'> Addition<br>
+	<input type='checkbox' id='subtraction'> Subtraction<br>
+	<input type='checkbox' id='multiplication'> Multiplication<br>
+</div>
+<div id='right'>
+	<div id='output' class="output"></div>
+</div>
+
+<script>
+poseQuestion();
+</script>
+</body>
+</html>

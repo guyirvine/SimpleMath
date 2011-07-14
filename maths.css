@@ -1,0 +1,78 @@
+body {
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+}
+
+#right {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 14%;
+	border: 1px solid black;
+	padding: 5px;
+	font-family: comic sans ms;
+	font-size: 18pt;
+}
+
+#left {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 14%;
+	border: 1px solid black;
+	padding: 5px;
+	font-family: comic sans ms;
+	font-size: 18pt;
+}
+
+#container {
+	margin: auto;
+	width: 70%;
+	font-family: comic sans ms;
+	font-size: 50pt;
+}
+
+#container table {
+	border: 1px solid black;
+	font-size: 50pt;
+	width: 100%;
+}
+
+#container div, #container input, #container button.answer {
+	font-size: 150pt;
+}
+
+
+#container div {
+}
+
+#container input {
+	width: 250px;
+}
+
+#container button.answer {
+	width: 700px;
+	text-align: center;
+}
+
+#container div.number {
+	width: 135px;
+}
+
+#container div.finalAnswer {
+	width: 215px;
+}
+
+.correct {
+	color: green;
+}
+
+.incorrect {
+	color: red;
+}
+
+#container div.output {
+	font-size: 12pt;
+	vertical-align: top;
+}
