@@ -12,7 +12,7 @@ body {
 	border: 1px solid black;
 	padding: 5px;
 	font-family: comic sans ms;
-	font-size: 18pt;
+	font-size: 11pt;
 }
 
 #left {
@@ -23,12 +23,12 @@ body {
 	border: 1px solid black;
 	padding: 5px;
 	font-family: comic sans ms;
-	font-size: 18pt;
+	font-size: 11pt;
 }
 
 #container {
 	margin: auto;
-	width: 70%;
+	width: 65%;
 	font-family: comic sans ms;
 	font-size: 50pt;
 }
@@ -40,7 +40,7 @@ body {
 }
 
 #container div, #container input, #container button.answer {
-	font-size: 150pt;
+	font-size: 90pt;
 }
 
 
@@ -48,20 +48,20 @@ body {
 }
 
 #container input {
-	width: 250px;
+	width: 180px;
 }
 
 #container button.answer {
-	width: 700px;
+	width: 100%;
 	text-align: center;
 }
 
 #container div.number {
-	width: 135px;
+	width: 20%;
 }
 
 #container div.finalAnswer {
-	width: 215px;
+	width: 20%;
 }
 
 .correct {
