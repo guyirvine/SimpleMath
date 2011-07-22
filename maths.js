@@ -46,7 +46,7 @@ if ( operator == "-" ) {
 	$( '#answer' ).val('');
 	$( '#answer' ).focus();
 	$( '#showAnswer' ).html( 'Answer' );
-	$( '#finalAnswer' ).html(  '' );
+	$( '#finalAnswer' ).html(  '&nbsp;&nbsp;' );
 
 	$( '#answer' ).removeClass( "correct" );
 	$( '#finalAnswer' ).removeClass( "correct" );
