@@ -8,7 +8,8 @@ function randomFromTo(from, to){
        return Math.floor(Math.random() * (to - from + 1) + from);
 }
 
-function setOperator() {
+
+function chooseOperator() {
 	var myArray = [];
 	
 	if ( $('#addition:checked').val() ) {
@@ -23,28 +24,55 @@ function setOperator() {
 		myArray.push("*");
 	}
 
+	if ( $('#division:checked').val() ) {
+		myArray.push("/");
+	}
+
 	index = randomFromTo( 0, myArray.length-1);
 	operator = myArray[index];
 }
 
-function poseQuestion() {
-setOperator();
-firstValue = randomFromTo( 0, 9 );	
-secondValue = randomFromTo( 0, 9 );
-if ( operator == "-" ) {
-	if ( firstValue < secondValue ) {
-		tmp = firstValue;
-		firstValue = secondValue;
-		secondValue = tmp;
-	}
-}
+
+function processForOperator() {
+	switch ( operator ) {
+		case '+':
+			firstValue = randomFromTo( 0, $("#addition-max").html() );	
+			secondValue = randomFromTo( 0, $("#addition-max").html() );
+			break;
+		
+		case '-':
+			firstValue = randomFromTo( 0, $("#subtraction-max").html() );	
+			secondValue = randomFromTo( 0, $("#subtraction-max").html() );
+			if ( firstValue < secondValue ) {
+				tmp = firstValue;
+				firstValue = secondValue;
+				secondValue = tmp;
+			}
+			break;
+
+		case '*':
+			firstValue = randomFromTo( 0, $("#multiplication-max").html() );	
+			secondValue = randomFromTo( 0, 9 );
+			break;
+
+		case '/':
+			firstValue = randomFromTo( 0, $("#division-max").html() );	
+			secondValue = randomFromTo( 1, 9 );
+			answer = firstValue * secondValue;
+			firstValue = answer;
+			break;
 	
-	$( '#firstValue' ).html( firstValue );
-	$( '#operator' ).html( operator );
-	$( '#secondValue' ).html( secondValue );
+	}
+		
+}
+
+
+function resetForm() {
+	$( '#showNext' ).disabled = true;
 	$( '#answer' ).disabled = false;
 	$( '#answer' ).val('');
 	$( '#answer' ).focus();
+
 	$( '#showAnswer' ).html( 'Answer' );
 	$( '#finalAnswer' ).html(  '&nbsp;&nbsp;' );
 
@@ -52,6 +80,24 @@ if ( operator == "-" ) {
 	$( '#finalAnswer' ).removeClass( "correct" );
 	$( '#answer' ).removeClass( "incorrect" );
 	$( '#finalAnswer' ).removeClass( "incorrect" );
+
+}
+	
+function populateForm() {
+	$( '#firstValue' ).html( firstValue );
+	$( '#operator' ).html( operator );
+	$( '#secondValue' ).html( secondValue );
+	$( '#showAnswer' ).html( 'Answer' );
+	$( '#finalAnswer' ).html(  '&nbsp;&nbsp;' );
+}
+
+
+function poseQuestion() {
+	chooseOperator();
+	processForOperator();
+
+	resetForm();
+	populateForm();
 
 	var buffer = "answer = " + 
 				firstValue + " " +
@@ -72,16 +118,22 @@ function showAnswerKey(evt) {
 
 }
 
-function showAnswer() {
-	if ( $( '#answer' ).disabled ) {
-//		poseQuestion();
-		return;
+function showNextKey(evt) {
+	var charCode = (evt.which) ? evt.which : event.keyCode
+	if ( charCode == 39 || charCode == 32 ) {
+		poseQuestion();
 	}
+	return false;
 
+}
+
+
+function showAnswer() {
 	$( '#finalAnswer' ).html( answer );
 	$( '#answer' ).disabled = true;
-	$( '#showAnswer' ).html( 'Next' );	
-	$( '#showAnswer' ).focus();
+	$( '#showAnswer' ).disabled = true;
+	$( '#showNext' ).disabled = false;
+	$( '#showNext' ).focus();
 
 	className = '';
 	if ( answer == $( '#answer' ).val() ) {
@@ -130,3 +182,45 @@ function trapTab(evt) {
 	}
 }
 
+
+function emme() {
+	$('#addition').prop( "checked", true );
+	$('#subtraction').prop( "checked", true );
+	$('#multiplication').prop( "checked", true );
+	$('#division').prop( "checked", true );
+
+	$('#addition-range').prop( "value", 9 );
+	$('#subtraction-range').prop( "value", 9 );
+	$('#multiplication-range').prop( "value", 5 );
+	$('#division-range').prop( "value", 3 );
+
+	$('#addition-range').change();
+	$('#subtraction-range').change();
+	$('#multiplication-range').change();
+	$('#division-range').change();
+
+	$('#answer').focus();
+
+	return false;
+}
+
+function tom() {
+	$('#addition').prop( "checked", true );
+	$('#subtraction').prop( "checked", true );
+	$('#multiplication').prop( "checked", true );
+	$('#division').prop( "checked", false );
+
+	$('#addition-range').prop( "value", 9 );
+	$('#subtraction-range').prop( "value", 9 );
+	$('#multiplication-range').prop( "value", 2 );
+	$('#division-range').prop( "value", 3 );
+
+	$('#addition-range').change();
+	$('#subtraction-range').change();
+	$('#multiplication-range').change();
+	$('#division-range').change();
+	
+	$('#answer').focus();
+
+	return false;
+}

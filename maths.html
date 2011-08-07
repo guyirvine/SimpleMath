@@ -7,25 +7,34 @@
 <body>
 
 <div id='container'>
-<table>
-	<tr>
-		<td><div id='firstValue' class='number'></div></td>
-		<td><div id='operator' class='number'></div></td>
-		<td><div id='secondValue' class='number'></div></td>
-		<td>=</td>
-		<td><input type='text' id='answer' onKeyDown="return trapTab(event);" onkeypress="return validateAnswerKeyInput(event)" ></td>
-		<td><div id='finalAnswer' class='finalAnswer'></div></td>
-	</tr>
-	<tr>
-		<td colspan='6' style="vertical-align: top;">
-			<button class='answer' id='showAnswer' onKeyDown="return showAnswerKey(event);" onClick="showAnswer();">Answer</button>
-		</td>
-</table>
+	<div id='formula'>
+		<div id='firstValue' class='number'></div></td>	
+		<div id='operator' class='number'></div></td>
+		<div id='secondValue' class='number'></div></td>
+		<div id='equals'>=</div>
+		<div id='input-answer'><input type='text' id='answer' onKeyDown="return trapTab(event);" onkeypress="return validateAnswerKeyInput(event)" ></div>
+		<div id='finalAnswer' class='finalAnswer'></div>
+	</div>
+	<div id='action-strip'>
+		<button class='action' id='showAnswer' onKeyDown="return showAnswerKey(event);" onClick="showAnswer();">Answer</button>
+		<button class='action' id='showNext' onKeyDown="return showNextKey(event);" onClick="showNext();">Next</button>
+	</div>
 </div>
+
 <div id='left'>
 	<input type='checkbox' id='addition' checked='checked'> Addition<br>
+		<input id='addition-range' type="range"  min="0" max="9" value='9' onchange="$( '#addition-max' ).html( this.value )"/>&nbsp;<span id='addition-max'>9</span><br>	
 	<input type='checkbox' id='subtraction'> Subtraction<br>
+		<input id='subtraction-range' type="range"  min="0" max="9" value='9' onchange="$( '#subtraction-max' ).html( this.value )"/>&nbsp;<span id='subtraction-max'>9</span><br>	
 	<input type='checkbox' id='multiplication'> Multiplication<br>
+		<input id='multiplication-range' type="range"  min="0" max="9" value='9' onchange="$( '#multiplication-max' ).html( this.value )"/>&nbsp;<span id='multiplication-max'>9</span><br>	
+	<input type='checkbox' id='division'> Division<br>
+		<input id='division-range' type="range"  min="0" max="9" value='9' onchange="$( '#division-max' ).html( this.value )"/>&nbsp;<span id='division-max'>9</span><br>
+	<br>
+	<br>
+	<a href='' onclick='emme();return false;'>Emme</a><br>
+	<a href='' onclick='tom();return false;'>Tom</a>
+	
 </div>
 <div id='right'>
 	<div id='output' class="output"></div>

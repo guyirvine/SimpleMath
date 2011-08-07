@@ -33,26 +33,25 @@ body {
 	font-size: 50pt;
 }
 
-#container table {
+#formula {
 	border: 1px solid black;
-	font-size: 50pt;
-	width: 100%;
 }
 
-#container div, #container input, #container button.answer {
+#formula div {
+	display: inline;
+}
+
+#container div, #container input, #container button.action {
 	font-size: 90pt;
 }
 
-
-#container div {
-}
 
 #container input {
 	width: 180px;
 }
 
-#container button.answer {
-	width: 100%;
+#container button.action {
+	width: 48%;
 	text-align: center;
 }
 
