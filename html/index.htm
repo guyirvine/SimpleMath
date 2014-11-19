@@ -1,0 +1,476 @@
+<html>
+	<head>
+        <title>SimpleMath</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"></meta>
+        <script src="js/jquery-1.7.2.min.js"></script>
+        <script src="js/knockout-2.1.0.js"></script>
+        <script src="js/underscore.min.js"></script>
+
+        <style>
+            body {
+                font-family: calibri,arial;
+            }
+
+            table.keypad {
+                width: 100%;
+            }
+            table.keypad td {
+                border: 1px ridge lightgrey;
+                text-align: center;
+                background-color: rgb( 74, 80, 94 );
+                color: white;
+                cursor: pointer;
+            }
+            table.keypad td.extra {
+                background-color: lightgrey;
+            }
+            table.keypad td span {
+                display: block;
+            }
+
+            table.keypad td {
+                width: 33%;
+            }
+
+            table.keypad td {
+                height: 3em;
+            }
+
+            table.keypad td span.number {
+                font-size: 1.5em;
+            }
+
+            div.question {
+                font-family: comic sans ms;
+                border: 1px solid black;
+                text-align: center;
+            }
+
+            div.question span {
+                font-size: 2em;
+                padding: 5px 15px;
+            }
+
+            div.results li {
+                font-size: 2em;
+                color: red;
+                list-style: none;
+            }
+            div.results li.correct {
+                color: green;
+            }
+            ul.ListOfAnswers li span {
+                text-decoration: line-through;
+            }
+            .ui-slider .ui-btn-inner {
+                padding: 5px 0 0 0 !important;
+                font-size:.8em;
+            }
+
+            div.results {
+                font-size: 1em;
+                height: 20em;
+                overflow-y: scroll;
+                border: 1px solid black;
+            }
+
+            ul.stats li {
+                display: inline;
+                padding-right: 1em;
+                list-style: none;
+            }
+            ul.stats li.incorrect {
+                color: red;
+            }
+            ul.stats li.correct {
+                color: green;
+            }
+
+            ul.userlist li {
+                padding-bottom: 0.5em;
+            }
+            </style>
+    </head>
+	<body>
+        <div data-role="page" id='time'>
+
+            <div data-role="header">
+                <h1>SimpleMath</h1>
+                <a href="#preferences">Preferences</a>
+                <a href="" data-bind="click: startover">Start over</a>
+            </div><!-- /header -->
+
+            <div data-role="content">
+                <div class='question'>
+                    <span data-bind='text: firstValue' class='number'></span>
+                    <span data-bind='text: operator' class='number'></span>
+                    <span data-bind='text: secondValue' class='number'></span>
+                    <span>=</span>
+                    <span data-bind='text: attemptedAnswer' class='number'></span>
+                </div>
+                <table cellspacing='0' cellpadding='0' class="keypad">
+                    <tr>
+                        <td class='number number1'>
+                            <span class='number number1'>1</span>
+                        </td>
+                        <td class='number number2'>
+                            <span class='number number2'>2</span>
+                        </td>
+                        <td class='number number3'>
+                            <span class='number number3'>3</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='number number4'>
+                            <span class='number number4'>4</span>
+                        </td>
+                        <td class='number number5'>
+                            <span class='number number5'>5</span>
+                        </td>
+                        <td class='number number6'>
+                            <span class='number number6'>6</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='number number7'>
+                            <span class='number number7'>7</span>
+                        </td>
+                        <td class='number number8'>
+                            <span class='number number8'>8</span>
+                        </td>
+                        <td class='number number9'>
+                            <span class='number number9'>9</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='extra del'>
+                            <span class='number'>del</span>
+                        </td>
+                        <td class='number number0'>
+                            <span class='number'>0</span>
+                        </td>
+                        <td class='extra ent'>
+                            <span class='number'>ent</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <ul class='stats'>
+                    <li>Total: <span data-bind="text: total"></span></li>
+                    <li class="correct">Correct: <span data-bind="text: totalCorrect"></span></li>
+                    <li class="incorrect">Incorrect: <span data-bind="text: totalIncorrect"></span></li>
+                </ul>
+
+                <div class="results">
+                    <ul class="ListOfAnswers" data-bind="foreach: list">
+                        <li data-bind="html: label,css: { correct: correct }"></li>
+                    </ul>
+
+                </div>
+            </div><!-- /content -->
+
+        </div><!-- /page -->
+
+        <div class="panel preferences" id='preferences'>
+            <div data-role="header">
+                <h1>Preferences</h1>
+            </div><!-- /header -->
+
+            <div data-role="content">
+
+                <form>
+                    <label for="additionMax">Addition</label>
+                    <input type="range" name="additionMax" data-highlight="true" id="additionMax" min="0" max="9" data-bind="value: additionMax" />
+
+                    <label for="subtractionMax">Subtraction</label>
+                    <input type="range" name="subtractionMax" data-highlight="true" id="subtractionMax" min="0" max="9" data-bind="value: subtractionMax" />
+
+                    <label for="multiplicationMax">Multiplication</label>
+                    <input type="range" name="multiplicationMax" data-highlight="true" id="multiplicationMax" min="0" max="9" data-bind="value: multiplicationMax" />
+
+                    <label for="divisionMax">Division</label>
+                    <input type="range" name="divisionMax" data-highlight="true" id="divisionMax" min="0" max="9" data-bind="value: divisionMax" />
+                </form>
+
+                <ul class="userlist" data-bind="foreach: userlist">
+                    <li><a href='' data-bind="click: select, text: name"></a></li>
+                </ul>
+
+            </div>
+        </div>
+
+    </body>
+    <script>
+		/*
+        ko.bindingHandlers.slider = {
+            init: function (element, valueAccessor) {
+                var valueUnwrapped = ko.utils.unwrapObservable(valueAccessor()); // Get the current value of the current property we're bound to
+                $(element).slider();
+                element.type = 'number';
+                $(element).attr('data-type', 'range');
+                $(element).val(valueUnwrapped).slider('refresh');
+                ko.utils.registerEventHandler(element, "change", function (event, ui) {
+                                              var observable = valueAccessor();
+                                              observable($(element).val());
+                                              });
+            },
+            update: function (element, valueAccessor, allBindingsAccessor) {
+                var value = valueAccessor();
+                var valueUnwrapped = ko.utils.unwrapObservable(value);
+
+                $(element).val(valueUnwrapped).slider('refresh');
+            }
+        };
+*/
+        $( "table.keypad td.number" ).bind( "click", function(e) {
+					console.log( "Here" );
+//                                           if  (isJQMGhostClick(e)) { return; }
+                                           if  (isGIGhostClick($(this).find( "span.number" ).text())) { return; }
+
+                                           vm.attemptedAnswer( vm.attemptedAnswer() + $(this).find( "span.number" ).text() );
+                                           })
+
+        $( "table.keypad td.del" ).bind( "click", function(e) {
+                                        //                                           if  (isJQMGhostClick(e)) { return; }
+                                        if  (isGIGhostClick("del")) { return; }
+
+                                          vm.attemptedAnswer( "" );
+                                          })
+
+        $( "table.keypad td.ent" ).bind( "click", function(e) {
+                                        if ( vm.attemptedAnswer() == "" )
+                                        return;
+
+                                        //                                           if  (isJQMGhostClick(e)) { return; }
+                                        if  (isGIGhostClick("ent")) { return; }
+
+                                        vm.submitAnswer();
+                                        })
+
+//$.tap(function(e){
+//      //prevent same event from firing twice
+//      if  (isJQMGhostClick(e)) { return; }
+//      /* ... do your stuff here ... */
+//      });
+
+      //check if click event firing twice on same position.
+
+      var lastClickTime = Date.now();
+      var lastClickEl = "";
+      function isGIGhostClick( el ) {
+          if (lastClickEl == el && Date.now() - lastClickTime < 800 ) {
+              return true;
+          }
+          lastClickEl = el;
+          lastClickTime = Date.now();
+          return false;
+      }
+
+      var lastclickpoint, curclickpoint;
+      var isJQMGhostClick = function(event){
+          curclickpoint = event.clientX+'x'+event.clientY;
+          if (lastclickpoint === curclickpoint) {
+              lastclickpoint = '';
+              return true;
+          } else {
+              //alert(lastclickpoint);
+              lastclickpoint = curclickpoint;
+              return false;
+          }
+      }
+
+        function randomFromTo(from, to){
+            return Math.floor(Math.random() * (to - from + 1) + from);
+        }
+        var calculatedAnswerFromEval;
+        function Answer( idx, firstValue, operator, secondValue, attemptedAnswer ) {
+            var self = this;
+
+            self.firstValue = ko.observable(firstValue);
+            self.operator = ko.observable(operator);
+            self.secondValue = ko.observable(secondValue);
+            self.attemptedAnswer = ko.observable(attemptedAnswer);
+
+            label = firstValue + " " + operator + " " + secondValue;
+            eval( "calculatedAnswerFromEval = " + label );
+
+            self.correctAnswer = ko.observable( calculatedAnswerFromEval );
+            self.correct = ko.observable( self.attemptedAnswer() == self.correctAnswer() );
+
+            if ( self.correct() == true ) {
+                self.label = ko.observable( idx + ")" + " " + label + " = " + self.correctAnswer() );
+            } else {
+                self.label = ko.observable( idx + ")" + " " + label + " = <span>" + self.attemptedAnswer() + "</span> " + self.correctAnswer() );
+            }
+        }
+
+        function User( name, a, s, m, d ) {
+            var self = this;
+
+            self.name = ko.observable( name );
+
+            self.additionMax = ko.observable(a);
+            self.subtractionMax = ko.observable(s);
+            self.multiplicationMax = ko.observable(m);
+            self.divisionMax = ko.observable(d);
+
+            self.select = function() {
+                vm.additionMax( self.additionMax() );
+                vm.subtractionMax( self.subtractionMax() );
+                vm.multiplicationMax( self.multiplicationMax() );
+                vm.divisionMax( self.divisionMax() );
+            }
+        }
+
+
+        function ViewModel() {
+            var self = this;
+
+            self.userlist = ko.observableArray();
+
+            self.operator = ko.observable();
+            self.firstValue = ko.observable();
+            self.secondValue = ko.observable();
+            self.attemptedAnswer = ko.observable( "" );
+
+            self.additionMax = ko.observable();
+            self.subtractionMax = ko.observable();
+            self.multiplicationMax = ko.observable();
+            self.divisionMax = ko.observable();
+
+            self.additionMax.subscribe(function(newValue) {
+                                             localStorage.additionMax = newValue;
+                                             });
+            self.subtractionMax.subscribe(function(newValue) {
+                                       localStorage.subtractionMax = newValue;
+                                       });
+            self.multiplicationMax.subscribe(function(newValue) {
+                                       localStorage.multiplicationMax = newValue;
+                                       });
+            self.divisionMax.subscribe(function(newValue) {
+                                       localStorage.divisionMax = newValue;
+                                       });
+
+            self.ChooseOperator = function() {
+                var myArray = [];
+
+                if ( self.additionMax() > 0 ) {
+                    console.log( self.additionMax() );
+                    myArray.push("+");
+                }
+
+                if ( self.subtractionMax() > 0 ) {
+                    myArray.push("-");
+                }
+
+                if ( self.multiplicationMax() > 0 ) {
+                    myArray.push("*");
+                }
+
+                if ( self.divisionMax() > 0 ) {
+                    myArray.push("/");
+                }
+
+                console.log( myArray );
+
+                index = randomFromTo( 0, myArray.length-1);
+                self.operator( myArray[index] );
+            }
+
+
+            self.askQuestion = function() {
+                console.log( "askQuestion" );
+                self.ChooseOperator();
+                switch ( self.operator() ) {
+                    case '+':
+                    self.firstValue(randomFromTo( 0, self.additionMax() ));
+                    self.secondValue(randomFromTo( 0, self.additionMax() ));
+                    break;
+
+                    case '-':
+                    self.firstValue(randomFromTo( 0, self.subtractionMax() ));
+                    self.secondValue(randomFromTo( 0, self.subtractionMax() ));
+                    if ( self.firstValue() < self.secondValue() ) {
+                        var tmp = self.firstValue();
+                        self.firstValue(self.secondValue());
+                        self.secondValue(tmp);
+                    }
+                    break;
+
+                    case '*':
+                    self.firstValue(randomFromTo( 0, self.multiplicationMax() ));
+                    self.secondValue(randomFromTo( 0, 9 ));
+                    break;
+
+                    case '/':
+                    self.firstValue(randomFromTo( 0, self.divisionMax() ));
+                    self.secondValue(randomFromTo( 1, 9 ) );
+                    var tmp = self.firstValue() * self.secondValue();
+                    self.firstValue(tmp);
+                    break;
+
+                }
+                self.attemptedAnswer( "" );
+            }
+
+            self.list = ko.observableArray();
+            self.submitAnswer = function() {
+                var answer = new Answer( self.list().length + 1, self.firstValue(), self.operator(), self.secondValue(), self.attemptedAnswer() );
+                self.list.unshift( answer );
+                self.askQuestion();
+            }
+
+            self.total = ko.computed( function() { return self.list().length } );
+            self.totalCorrect = ko.computed( function() {
+                                            return _.filter(self.list(), function(obj){ return obj.correct(); } ).length });
+            self.totalIncorrect = ko.computed( function() {
+                                              return _.filter(self.list(), function(obj){ return obj.correct() != true; } ).length });
+
+            self.addUser = function( name, a, s, m, d ) {
+                var user = new User( name, a, s, m, d );
+                self.userlist.push( user );
+            }
+
+            self.startover = function() {
+                self.list.removeAll();
+                vm.askQuestion();
+
+                return false;
+            }
+        }
+
+
+        var vm = new ViewModel();
+
+        vm.addUser( "Emme", 0, 0, 9, 9 );
+        vm.addUser( "Tom", 9, 9, 9, 5 );
+        vm.addUser( "James", 5, 0, 0, 0 );
+
+        if ( localStorage.additionMax == undefined ) {
+            vm.additionMax(9);
+        } else {
+            vm.additionMax(localStorage.additionMax)
+        }
+        if ( localStorage.subtractionMax == undefined ) {
+            vm.subtractionMax(9);
+        } else {
+            vm.subtractionMax(localStorage.subtractionMax)
+        }
+        if ( localStorage.multiplicationMax == undefined ) {
+            vm.multiplicationMax(9);
+        } else {
+            vm.multiplicationMax(localStorage.multiplicationMax)
+        }
+        if ( localStorage.divisionMax == undefined ) {
+            vm.divisionMax(9);
+        } else {
+            vm.divisionMax(localStorage.divisionMax)
+        }
+
+
+        vm.askQuestion();
+
+        ko.applyBindings( vm );
+
+        </script>
+</html>
