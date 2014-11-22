@@ -1,0 +1,10 @@
+CACHE MANIFEST
+
+# Build 2014-21-1.
+CACHE:
+index.htm
+
+NETWORK:
+http://*
+https://*
+
