@@ -101,6 +101,26 @@
                 padding-bottom: 0.5em;
             }
 
+						@media (min-width: 600px) {
+							div.before, div.after {
+								vertical-align: top;
+								display: inline-block;
+							}
+							div.before {
+								width: 60%;
+							}
+							div.after {
+								width: 35%;
+							}
+							div.results {
+								border: none;
+								border-top: 1px solid grey;
+							}
+							div.after {
+								border: 1px solid black;
+							}
+						}
+
 @media (max-width: 767px) {
     h1    {
        display: none;
@@ -121,6 +141,7 @@
             </div><!-- /header -->
 
             <div data-role="content">
+							<div class="before">
                 <div class='question'>
                     <span data-bind='text: firstValue' class='number'></span>
                     <span data-bind='text: operator' class='number'></span>
@@ -174,7 +195,8 @@
                         </td>
                     </tr>
                 </table>
-
+						</div>
+						<div class="after">
                 <ul class='stats'>
                     <li>Total: <span data-bind="text: total"></span></li>
                     <li class="correct">Correct: <span data-bind="text: totalCorrect"></span></li>
@@ -187,6 +209,7 @@
                     </ul>
 
                 </div>
+							</div>
             </div><!-- /content -->
 
         </div><!-- /page -->
