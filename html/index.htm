@@ -265,6 +265,21 @@
             }
         };
 */
+
+		$("html").keydown(function(event) {
+			var keyCode = event.keyCode;
+			if ( keyCode >= 48 && keyCode <= 57 ) {
+				var number = keyCode - 48;
+				$( "td.number" + number ).click();
+			} else  if ( keyCode == 8 ) {
+				//Delete key needs an override to stop navigating backwards
+				event.preventDefault();
+				$( "td.del" ).click();
+			} else  if ( keyCode == 13 ) {
+				$( "td.ent" ).click();
+			}
+		});
+
         $( "table.keypad td.number" ).bind( "click", function(e) {
 					console.log( "Here" );
 //                                           if  (isJQMGhostClick(e)) { return; }
