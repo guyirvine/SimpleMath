@@ -270,7 +270,7 @@
 			var keyCode = event.keyCode;
 			if ( keyCode >= 48 && keyCode <= 57 ) {
 				var number = keyCode - 48;
-				$( "td.number" + number ).click();
+				vm.attemptedAnswer( vm.attemptedAnswer() + number );
 			} else  if ( keyCode == 8 ) {
 				//Delete key needs an override to stop navigating backwards
 				event.preventDefault();
